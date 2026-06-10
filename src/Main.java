@@ -2,6 +2,9 @@ import java.util.*;
 public class Main {
 	static Scanner leia = new Scanner(System.in);
 	
+	static String vetCodMarca[] = { "BM", "VW", "FO", "MB", "CV", "FI", "AU", "TO", "HO", "HY" };
+	static String vetDescricaoMarca[] = { "BMW", "Volskswagen", "Ford", "Mercedes Benz", "Chevrolet", "Fiat", "Audi", "Toyota", "Honda", "Hyundai" };
+	
 	public static void main(String[] args) {	
 		Estacionamento estacionamento = new Estacionamento();
     	byte opcao = -1;
@@ -27,7 +30,7 @@ public class Main {
 					System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
 					break;
 				case 1: 
-					estacionamento.registrarEntradaVeiculo(); 
+					estacionamento.registrarEntrada(); 
 					break;
 				case 2:
 					estacionamento.registrarSaidaVeiculo();
@@ -47,3 +50,7 @@ public class Main {
 	}
 
 }
+
+
+
+
