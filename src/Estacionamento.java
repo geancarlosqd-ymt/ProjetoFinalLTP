@@ -14,7 +14,7 @@ public class Estacionamento {
 	String horaSaida;
 	float valorPago;
 
-	public long pesquisarEntradaVeiculo(String codEstPesq) {
+	public long pesquisarVeiculo(String codEstPesq) {
 		// metodo para localizar um registro no arquivo em disco
 		long posicaoCursorArquivo = 0;
 		try {
@@ -133,10 +133,9 @@ public class Estacionamento {
 				codEst = "0" + codEst;
 			}
 
-			
 			System.out.println("Código de Estacionamento....................: " + codEst);
 			do {
-				System.out.println("Digite a placa..........................: ");
+				System.out.print("Digite a placa..........................: ");
 				placa = Main.leia.nextLine();
 				if (!placaEhValida(placa)) {
 					System.out.println("Placa inválida, digite no formato XXX9999!");
@@ -147,7 +146,7 @@ public class Estacionamento {
 			} while (!placaEhValida(placa) || placa.isEmpty());
 
 			do {
-				System.out.println("Digite a Data de Entrada(DD/MM/AAAA)..: ");
+				System.out.print("Digite a Data de Entrada(DD/MM/AAAA)..: ");
 				dataOperacao = Main.leia.nextLine();
 			} while (!dataEhValida(dataOperacao));
 
@@ -155,12 +154,12 @@ public class Estacionamento {
 			System.out.println("Tipo de Operação (E entrada - S saida)......: " + tipoOperacao);
 
 			do {
-				System.out.println("Digite o modelo e cor...................: ");
+				System.out.print("Digite o modelo e cor...................: ");
 				modeloCor = Main.leia.nextLine();
 			} while (!validarModeloCor(modeloCor));
 
 			do {
-				System.out.println("Digite o codigo da marca................: ");
+				System.out.print("Digite o codigo da marca................: ");
 				codMarca = Main.leia.nextLine();
 				if (pesquisarMarcaVeiculo(codMarca) == -1) {
 					System.out.println("Marca inválida!");
@@ -168,7 +167,7 @@ public class Estacionamento {
 			} while (pesquisarMarcaVeiculo(codMarca) == -1);
 
 			do {
-				System.out.println("Digite a categoria (GI/PI/GN/PN)........: ");
+				System.out.print("Digite a categoria (GI/PI/GN/PN)........: ");
 				categoriaVeiculo = Main.leia.nextLine();
 				if (consistirCategoria(categoriaVeiculo).equals("ERRO")) {
 					System.out.println("Categoria inválida!");
@@ -177,7 +176,7 @@ public class Estacionamento {
 			System.out.println("Categoria: " + consistirCategoria(categoriaVeiculo));
 
 			do {
-				System.out.println("Digite a hora de entrada (HH:MM)........: ");
+				System.out.print("Digite a hora de entrada (HH:MM)........: ");
 				horaEntrada = Main.leia.nextLine();
 			} while (!validarHora(horaEntrada));
 
@@ -185,7 +184,7 @@ public class Estacionamento {
 			valorPago = 0;
 
 			do {
-				System.out.println("\nConfirma a gravacao dos dados (S/N) ? ");
+				System.out.print("\nConfirma a gravacao dos dados (S/N) ? ");
 				confirmacao = Main.leia.next().charAt(0);
 				if (confirmacao == 'S') {
 					salvarRegistroVeiculo();
@@ -206,199 +205,161 @@ public class Estacionamento {
 		byte opcao;
 
 		do {
+			Main.leia.nextLine();
+			System.out.println("\n ***************  REGISTRO DE SAIDA DE VEICULOS  ***************** ");
+			System.out.print("Digite o Código Para Registrar a saída(FIM para encerrar): ");
+			CodEst = Main.leia.nextLine();
+			if (CodEst.equalsIgnoreCase("FIM")) {
+				break;
+			}
 			do {
-				Main.leia.nextLine();
-				System.out.println("\n ***************  REGISTRO DE SAIDA DE VEICULOS  ***************** ");
-				System.out.print("Digite o Código de Registro que deseja alterar( FIM para encerrar ): ");
-				CodEst = Main.leia.nextLine();
-				if (CodEst.equals("FIM")) {
-					break;
-				}
 
-				posicaoRegistro = pesquisarAluno(CodEst);
+				posicaoRegistro = pesquisarVeiculo(CodEst);
 				if (posicaoRegistro == -1) {
 					System.out.println("Registro nao cadastrado no arquivo, digite outro valor\n");
 				}
 			} while (posicaoRegistro == -1);
-
-			if (CodEst.equals("FIM")) {
-				break;
+			if (tipoOperacao == 'S') {
+				System.out.println("Este veiculo já saiu do estacionamento");
 			}
 
-			ativo = 'S';
+			System.out.println("Digite a placa..........................: " + placa);
+			System.out.println("Data de Entrada.........................: " + dataOperacao);
+			tipoOperacao = 'S';
+			System.out.println("Tipo de Operação (E entrada - S saida): " + tipoOperacao);
+			System.out.println("Digite o modelo e cor...................: " + modeloCor);
+			System.out.println("Digite o codigo da marca................: " + codMarca);
+			System.out.println("Categoria (GI/PI/GN/PN).................: " + categoriaVeiculo);
 
 			do {
-
-				System.out.println("[ 1 ] Placa do carro........: " + placa);
-				System.out.println("[ 2 ] Data de entrada.......: " + dataOperacao);
-				System.out.println("[ 3 ] Modelo e cor..........: " + modeloCor);
-				System.out.println("[ 4 ] Marca.................: " + codMarca);
-				System.out.println("[ 5 ] Categoria.............: " + categoriaVeiculo);
-				System.out.println("[ 6 ] Hora de entrada.......: " + horaEntrada);
-				System.out.println("[ 7 ] Hora de saida.........: " + horaSaida);
-				System.out.println("[ 8 ] Valor pago............: " + valorPago);
-
 				do {
-					System.out
-							.println("Digite o numero do campo que deseja alterar (0 para finalizar as alterações): ");
-					opcao = Main.leia.nextByte();
-				} while (opcao < 0 || opcao > 4);
-
-				switch (opcao) {
-				case 1:
-					Main.leia.nextLine();
-					System.out.print("Digite a NOVA PLACA do veiculo..................: ");
-					placa = Main.leia.nextLine();
-					break;
-				case 2:
-					Main.leia.nextLine();
-					System.out.print("Digite a NOVA DATA de Entrada do veiculo (DD/MM/AAAA): ");
-					dataOperacao = Main.leia.nextLine();
-					break;
-				case 3:
-					System.out.print("Digite o NOVO MODELO E COR do veiculo...........: ");
-					modeloCor = Main.leia.nextLine();
-					break;
-				case 4:
-					System.out.print("Digite a NOVO COD DA MARCA do veiculo............: ");
-					codMarca = Main.leia.nextLine();
-					break;
-				case 5:
-					System.out.print("Digite a NOVA CATEGORIA do veiculo............: ");
-					categoriaVeiculo = Main.leia.nextLine();
-				case 6:
-					System.out.print("Digite a NOVA HORA DE ENTRADA do veiculo............: ");
-					horaEntrada = Main.leia.nextLine();
-				case 7:
-					System.out.print("Digite a NOVA HORA DE SAIDA do veiculo............: ");
+					System.out.println("Hora de saida(HH:MM)....................: ");
 					horaSaida = Main.leia.nextLine();
-				case 8:
-					System.out.print("Digite NOVO VALOR PAGO............: ");
-					valorPago = Main.leia.nextFloat();
-				}
-				System.out.println();
-			} while (opcao != 0);
+				} while (!validarHora(horaSaida));
+			} while (!validarHoraSaida(horaEntrada, horaSaida));
+
+			valorPago = 5;
+
+			System.out.println("Valor a ser pago.................: " + valorPago);
 
 			do {
-				System.out.print("\nConfirma a alteracao dos dados (S/N) ? ");
+				System.out.print("\nConfirma a gravacao dos dados (S/N) ? ");
 				confirmacao = Main.leia.next().charAt(0);
 				if (confirmacao == 'S') {
-					desativarAluno(posicaoRegistro);
-					salvarAluno();
-					System.out.println("Dados gravados com sucesso !\n");
+					salvarRegistroVeiculo();
 				}
 			} while (confirmacao != 'S' && confirmacao != 'N');
 
-		} while (!matricula.equals("FIM"));
+		} while (!CodEst.equalsIgnoreCase("Fim"));
 	}
 
 	// ************************ EXCLUSAO *****************************
-	public void excluir() {
-		String matriculaChave;
-		char confirmacao;
-		long posicaoRegistro = 0;
-
-		do {
-			do {
-				Main.leia.nextLine();
-				System.out.println(" ***************  EXCLUSAO DE REGISTROS  ***************** ");
-				System.out.print("Digite o Código de Registro a ser excluido( FIM para encerrar ): ");
-				matriculaChave = Main.leia.nextLine();
-				if (matriculaChave.equals("FIM")) {
-					break;
-				}
-
-				posicaoRegistro = pesquisarAluno(matriculaChave);
-				if (posicaoRegistro == -1) {
-					System.out.println("Registro nao cadastrado no arquivo, digite outro valor\n");
-				}
-			} while (posicaoRegistro == -1);
-
-			if (matriculaChave.equals("FIM")) {
-				System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
-				break;
-			}
-
-			System.out.println("Placa do carro........: " + placa);
-			System.out.println("Data de entrada.......: " + dataOperacao);
-			System.out.println("Modelo e cor..........: " + modeloCor);
-			System.out.println("Marca.................: " + codMarca);
-			System.out.println("Categoria.............: " + categoriaVeiculo);
-			System.out.println("Hora de entrada.......: " + horaEntrada);
-			System.out.println("Hora de saida.........: " + horaSaida);
-			System.out.println("Valor pago............: " + valorPago);
-			System.out.println();
-
-			do {
-				System.out.print("\nConfirma a exclusao deste aluno (S/N) ? ");
-				confirmacao = Main.leia.next().charAt(0);
-				if (confirmacao == 'S') {
-					desativarAluno(posicaoRegistro);
-				}
-			} while (confirmacao != 'S' && confirmacao != 'N');
-
-		} while (!matricula.equals("FIM"));
-	}
+//	public void excluir() {
+//		String matriculaChave;
+//		char confirmacao;
+//		long posicaoRegistro = 0;
+//
+//		do {
+//			do {
+//				Main.leia.nextLine();
+//				System.out.println(" ***************  EXCLUSAO DE REGISTROS  ***************** ");
+//				System.out.print("Digite o Código de Registro a ser excluido( FIM para encerrar ): ");
+//				matriculaChave = Main.leia.nextLine();
+//				if (matriculaChave.equals("FIM")) {
+//					break;
+//				}
+//
+//				posicaoRegistro = pesquisarAluno(matriculaChave);
+//				if (posicaoRegistro == -1) {
+//					System.out.println("Registro nao cadastrado no arquivo, digite outro valor\n");
+//				}
+//			} while (posicaoRegistro == -1);
+//
+//			if (matriculaChave.equals("FIM")) {
+//				System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
+//				break;
+//			}
+//
+//			System.out.println("Placa do carro........: " + placa);
+//			System.out.println("Data de entrada.......: " + dataOperacao);
+//			System.out.println("Modelo e cor..........: " + modeloCor);
+//			System.out.println("Marca.................: " + codMarca);
+//			System.out.println("Categoria.............: " + categoriaVeiculo);
+//			System.out.println("Hora de entrada.......: " + horaEntrada);
+//			System.out.println("Hora de saida.........: " + horaSaida);
+//			System.out.println("Valor pago............: " + valorPago);
+//			System.out.println();
+//
+//			do {
+//				System.out.print("\nConfirma a exclusao deste aluno (S/N) ? ");
+//				confirmacao = Main.leia.next().charAt(0);
+//				if (confirmacao == 'S') {
+//					desativarAluno(posicaoRegistro);
+//				}
+//			} while (confirmacao != 'S' && confirmacao != 'N');
+//
+//		} while (!matricula.equals("FIM"));
+//	}
 
 	// ************************ CONSULTA *****************************
-	public void consultar() {
-		RandomAccessFile arqEst;
-		byte opcao;
-		String matriculaChave;
-		char sexoAux;
-		long posicaoRegistro;
-
-		do {
-			do {
-				System.out.println(" ***************  CONSULTA DOS REGISTROS DE ENTRADA E SAIDA  ***************** ");
-				System.out.println(" [1] EXIBIR TODOS OS REGISTROS ");
-				System.out.println(" [2] EXIBIR VEÍCULOS QUE NÃO SAÍRAM DO ESTACIONAMENTO ");
-				System.out.println(" [3] EXIBIR REGISTROS CADASTRADOS POR DATA ");
-				System.out.println(" [0] SAIR");
-				System.out.print("\nDigite a opcao desejada: ");
-				opcao = Main.leia.nextByte();
-				if (opcao < 0 || opcao > 3) {
-					System.out.println("opcao Invalida, digite novamente.\n");
-				}
-			} while (opcao < 0 || opcao > 3);
-
-			switch (opcao) {
-			case 0:
-				System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
-				break;
-
-			case 1:
-				// imprime todos os registros, opção [1] !!!
-
-				try {
-					arqEst = new RandomAccessFile("EST.DAT", "rw");
-					imprimirCabecalho();
-					while (true) {
-						ativo = arqEst.readChar();
-						codEst = arqEst.readUTF();
-						placa = arqEst.readUTF();
-						dataOperacao = arqEst.readUTF();
-						tipoOperacao = arqEst.readChar();
-						modeloCor = arqEst.readUTF();
-						codMarca = arqEst.readUTF();
-						categoriaVeiculo = arqEst.readUTF();
-						horaEntrada = arqEst.readUTF();
-						horaSaida = arqEst.readUTF();
-						valorPago = arqEst.readFloat();
-						if (ativo == 'S') {
-							imprimirAluno();
-						}
-					}
-					// arqEst.close();
-				} catch (EOFException e) {
-					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
-					Main.leia.nextLine();
-					matriculaChave = Main.leia.nextLine();
-				} catch (IOException e) {
-					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
-					System.exit(0);
-				}
-				break;
+//	public void consultar() {
+//		RandomAccessFile arqEst;
+//		byte opcao;
+//		String matriculaChave;
+//		char sexoAux;
+//		long posicaoRegistro;
+//
+//		do {
+//			do {
+//				System.out.println(" ***************  CONSULTA DOS REGISTROS DE ENTRADA E SAIDA  ***************** ");
+//				System.out.println(" [1] EXIBIR TODOS OS REGISTROS ");
+//				System.out.println(" [2] EXIBIR VEÍCULOS QUE NÃO SAÍRAM DO ESTACIONAMENTO ");
+//				System.out.println(" [3] EXIBIR REGISTROS CADASTRADOS POR DATA ");
+//				System.out.println(" [0] SAIR");
+//				System.out.print("\nDigite a opcao desejada: ");
+//				opcao = Main.leia.nextByte();
+//				if (opcao < 0 || opcao > 3) {
+//					System.out.println("opcao Invalida, digite novamente.\n");
+//				}
+//			} while (opcao < 0 || opcao > 3);
+//
+//			switch (opcao) {
+//			case 0:
+//				System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
+//				break;
+//
+//			case 1:
+//				// imprime todos os registros, opção [1] !!!
+//
+//				try {
+//					arqEst = new RandomAccessFile("EST.DAT", "rw");
+//					imprimirCabecalho();
+//					while (true) {
+//						ativo = arqEst.readChar();
+//						codEst = arqEst.readUTF();
+//						placa = arqEst.readUTF();
+//						dataOperacao = arqEst.readUTF();
+//						tipoOperacao = arqEst.readChar();
+//						modeloCor = arqEst.readUTF();
+//						codMarca = arqEst.readUTF();
+//						categoriaVeiculo = arqEst.readUTF();
+//						horaEntrada = arqEst.readUTF();
+//						horaSaida = arqEst.readUTF();
+//						valorPago = arqEst.readFloat();
+//						if (ativo == 'S') {
+//							imprimirAluno();
+//						}
+//					}
+//					// arqEst.close();
+//				} catch (EOFException e) {
+//					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
+//					Main.leia.nextLine();
+//					matriculaChave = Main.leia.nextLine();
+//				} catch (IOException e) {
+//					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
+//					System.exit(0);
+//				}
+//				break;
 
 //			case 2:  
 //				//	consulta de uma unica matricula
@@ -451,20 +412,22 @@ public class Estacionamento {
 //					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 //					System.exit(0);
 //				}
+//
+//			}
+//
+//		} while (opcao != 0);
+//	}
 
-			}
+	// ***************************FATURAMENTO***********************************
 
-		} while (opcao != 0);
+	public static float calcularValorAPagar() {
+
 	}
 
-	
-	// ***************************FATURAMENTO***********************************
-	
 	public void exibirRelatorioFaturamento() {
 		System.out.println("Julio");
 	}
-	
-	
+
 	// ***************************RELATORIO***********************************
 
 	public void imprimirCabecalho() {
@@ -592,10 +555,13 @@ public class Estacionamento {
 		int hSaida = Integer.parseInt(horaSaida.substring(0, 2));
 		int mSaida = Integer.parseInt(horaSaida.substring(3));
 
-		if (hSaida < hEntrada || (hSaida == hEntrada && mSaida <= mEntrada)) {
-			System.out.println("Hora de saída deve ser maior que hora de entrada!");
+		if (hEntrada > hSaida || hEntrada == hSaida && mEntrada >= mSaida) {
+			System.out.println("Horario Final deve ser maior que o Inicial");
 			return false;
 		}
+		while (hEntrada > hSaida || hEntrada == hSaida && mEntrada >= mSaida)
+			;
+
 		return true;
 	}
 
@@ -677,7 +643,7 @@ public class Estacionamento {
 			System.out.println("Erro ao abrir o arquivo");
 			System.exit(0);
 			return false;
-			
+
 		}
 	}
 

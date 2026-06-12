@@ -11,7 +11,7 @@ public class Main {
     	 
     	do {
 			do {
-    			System.out.println("\n ***************  CADASTRO DE ALUNOS  ***************** ");
+    			System.out.println("\n ***************  CADASTRO DE ESTACIONAMENTO  ***************** ");
     			System.out.println(" [1] ENTRADA DE VEICULOS ");
     			System.out.println(" [2] SAIDA DE VEICULOS ");
     			System.out.println(" [3] CONSULTAR ALUNOS ");
@@ -33,13 +33,13 @@ public class Main {
 					estacionamento.registrarEntrada(); 
 					break;
 				case 2:
-					estacionamento.registrarSaidaVeiculo();
+				estacionamento.registrarSaidaVeiculo();
 					break;
 				case 3: 
-					estacionamento.consultar();
+//					estacionamento.consultar();
 					break;
 				case 4: 
-					estacionamento.excluir();
+//					estacionamento.excluir();
 					break;
 				case 5:
 					estacionamento.exibirRelatorioFaturamento();
