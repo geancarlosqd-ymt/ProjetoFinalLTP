@@ -14,7 +14,7 @@ public class Estacionamento {
 	String horaSaida;
 	float valorPago;
 
-	public long pesquisarVeiculo(String codEstPesq) {
+	public long pesquisarEntradaVeiculo(String codEstPesq) {
 		// metodo para localizar um registro no arquivo em disco
 		long posicaoCursorArquivo = 0;
 		try {
@@ -72,9 +72,10 @@ public class Estacionamento {
 		}
 	}
 
-	public void desativarRegistroVeiculo(long posicao) {
+	public void desativarRegistroVeiculo(String codEstEntrada) {
 		// metodo para alterar o valor do campo ATIVO para N, tornando assim o registro
-		// excluido
+		long posicao;
+		posicao = pesquisarEntradaVeiculo(codEstEntrada);
 		try {
 			RandomAccessFile arqEst = new RandomAccessFile("EST.DAT", "rw");
 			arqEst.seek(posicao);
@@ -133,9 +134,9 @@ public class Estacionamento {
 				codEst = "0" + codEst;
 			}
 
-			System.out.println("Código de Estacionamento....................: " + codEst);
+			System.out.println("Código de Estacionamento..................: " + codEst);
 			do {
-				System.out.print("Digite a placa..........................: ");
+				System.out.print("Digite a placa............................: ");
 				placa = Main.leia.nextLine();
 				if (!placaEhValida(placa)) {
 					System.out.println("Placa inválida, digite no formato XXX9999!");
@@ -146,20 +147,20 @@ public class Estacionamento {
 			} while (!placaEhValida(placa) || placa.isEmpty());
 
 			do {
-				System.out.print("Digite a Data de Entrada(DD/MM/AAAA)..: ");
+				System.out.print("Digite a Data de Entrada(DD/MM/AAAA)......: ");
 				dataOperacao = Main.leia.nextLine();
 			} while (!dataEhValida(dataOperacao));
 
 			tipoOperacao = 'E';
-			System.out.println("Tipo de Operação (E entrada - S saida)......: " + tipoOperacao);
+			System.out.println("Tipo de Operação (E entrada - S saida)....: " + tipoOperacao);
 
 			do {
-				System.out.print("Digite o modelo e cor...................: ");
+				System.out.print("Digite o modelo e cor.....................: ");
 				modeloCor = Main.leia.nextLine();
 			} while (!validarModeloCor(modeloCor));
 
 			do {
-				System.out.print("Digite o codigo da marca................: ");
+				System.out.print("Digite o codigo da marca..................: ");
 				codMarca = Main.leia.nextLine();
 				if (pesquisarMarcaVeiculo(codMarca) == -1) {
 					System.out.println("Marca inválida!");
@@ -167,16 +168,16 @@ public class Estacionamento {
 			} while (pesquisarMarcaVeiculo(codMarca) == -1);
 
 			do {
-				System.out.print("Digite a categoria (GI/PI/GN/PN)........: ");
+				System.out.print("Digite a categoria (GI/PI/GN/PN)..........: ");
 				categoriaVeiculo = Main.leia.nextLine();
 				if (consistirCategoria(categoriaVeiculo).equals("ERRO")) {
 					System.out.println("Categoria inválida!");
 				}
 			} while (consistirCategoria(categoriaVeiculo).equals("ERRO"));
-			System.out.println("Categoria: " + consistirCategoria(categoriaVeiculo));
+			System.out.println("Categoria.................................: " + consistirCategoria(categoriaVeiculo));
 
 			do {
-				System.out.print("Digite a hora de entrada (HH:MM)........: ");
+				System.out.print("Digite a hora de entrada (HH:MM)..........: ");
 				horaEntrada = Main.leia.nextLine();
 			} while (!validarHora(horaEntrada));
 
@@ -202,7 +203,6 @@ public class Estacionamento {
 		String CodEst;
 		char confirmacao;
 		long posicaoRegistro = 0;
-		byte opcao;
 
 		do {
 			Main.leia.nextLine();
@@ -213,27 +213,29 @@ public class Estacionamento {
 				break;
 			}
 			do {
-
-				posicaoRegistro = pesquisarVeiculo(CodEst);
+				posicaoRegistro = pesquisarEntradaVeiculo(CodEst);
 				if (posicaoRegistro == -1) {
 					System.out.println("Registro nao cadastrado no arquivo, digite outro valor\n");
+					CodEst = Main.leia.nextLine();
 				}
 			} while (posicaoRegistro == -1);
 			if (tipoOperacao == 'S') {
 				System.out.println("Este veiculo já saiu do estacionamento");
+				break;
 			}
 
-			System.out.println("Digite a placa..........................: " + placa);
+			System.out.println("Placa...................................: " + placa);
 			System.out.println("Data de Entrada.........................: " + dataOperacao);
 			tipoOperacao = 'S';
-			System.out.println("Tipo de Operação (E entrada - S saida): " + tipoOperacao);
+			System.out.println("Tipo de Operação (E entrada - S saida)..: " + tipoOperacao);
 			System.out.println("Digite o modelo e cor...................: " + modeloCor);
 			System.out.println("Digite o codigo da marca................: " + codMarca);
 			System.out.println("Categoria (GI/PI/GN/PN).................: " + categoriaVeiculo);
+			System.out.println("Hora de entrada (HH:MM).................: " + horaEntrada);
 
 			do {
 				do {
-					System.out.println("Hora de saida(HH:MM)....................: ");
+					System.out.print("Digite a hora da saida(HH:MM)...........: ");
 					horaSaida = Main.leia.nextLine();
 				} while (!validarHora(horaSaida));
 			} while (!validarHoraSaida(horaEntrada, horaSaida));
@@ -247,9 +249,17 @@ public class Estacionamento {
 				confirmacao = Main.leia.next().charAt(0);
 				if (confirmacao == 'S') {
 					salvarRegistroVeiculo();
+					desativarRegistroVeiculo(codEst);
 				}
 			} while (confirmacao != 'S' && confirmacao != 'N');
 
+			System.out.println("\nDeseja registrar outra saida? (S/N): ");
+			confirmacao = Main.leia.next().charAt(0);
+		
+			if (confirmacao == 'N') {
+				break;
+			}
+			
 		} while (!CodEst.equalsIgnoreCase("Fim"));
 	}
 
