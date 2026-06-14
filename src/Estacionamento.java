@@ -240,7 +240,7 @@ public class Estacionamento {
 				} while (!validarHora(horaSaida));
 			} while (!validarHoraSaida(horaEntrada, horaSaida));
 
-			valorPago = 5;
+			valorPago = calcularValorAPagar(horaEntrada, horaSaida, categoriaVeiculo);
 
 			System.out.println("Valor a ser pago.................: " + valorPago);
 
@@ -255,11 +255,11 @@ public class Estacionamento {
 
 			System.out.println("\nDeseja registrar outra saida? (S/N): ");
 			confirmacao = Main.leia.next().charAt(0);
-		
+
 			if (confirmacao == 'N') {
 				break;
 			}
-			
+
 		} while (!CodEst.equalsIgnoreCase("Fim"));
 	}
 
@@ -430,8 +430,40 @@ public class Estacionamento {
 
 	// ***************************FATURAMENTO***********************************
 
-	public static float calcularValorAPagar() {
+	public float calcularValorAPagar(String horaEntrada, String horaSaida, String categoriaVeiculo) {
+		float valor;
+		int hEntrada = Integer.parseInt(horaEntrada.substring(0, 2));
+		int mEntrada = Integer.parseInt(horaEntrada.substring(3));
+		int hSaida = Integer.parseInt(horaSaida.substring(0, 2));
+		int mSaida = Integer.parseInt(horaSaida.substring(3));
+		float vlrHora;
 
+		if (hEntrada < 18 || (hEntrada == 18 && mEntrada == 0)) {
+			if (categoriaVeiculo.equals("GI")) {
+				vlrHora = 10;
+			} else if (categoriaVeiculo.equals("PI")) {
+				vlrHora = 8.20f;
+			} else if (categoriaVeiculo.equals("GN")) {
+				vlrHora = 9;
+			} else {
+				vlrHora = 7;
+			}
+
+		} else {
+			if (categoriaVeiculo.equals("GI")) {
+				vlrHora = 8;
+			} else if (categoriaVeiculo.equals("PI")) {
+				vlrHora = 6.50f;
+			} else if (categoriaVeiculo.equals("GN")) {
+				vlrHora = 7.50f;
+			} else {
+				vlrHora = 6;
+			}
+		}
+
+		valor = (hSaida - hEntrada + (mSaida - mEntrada) / 60f) * vlrHora;
+
+		return valor;
 	}
 
 	public void exibirRelatorioFaturamento() {
@@ -611,13 +643,13 @@ public class Estacionamento {
 	public String consistirCategoria(String categoria) {
 		String descricaoCategoria;
 
-		if (categoria.equalsIgnoreCase("GI")) {
+		if (categoria.equals("GI")) {
 			descricaoCategoria = "Grande e Importado";
-		} else if (categoria.equalsIgnoreCase("PI")) {
+		} else if (categoria.equals("PI")) {
 			descricaoCategoria = "Pequeno e Importado";
-		} else if (categoria.equalsIgnoreCase("GN")) {
+		} else if (categoria.equals("GN")) {
 			descricaoCategoria = "Grande e Nacional";
-		} else if (categoria.equalsIgnoreCase("PN")) {
+		} else if (categoria.equals("PN")) {
 			descricaoCategoria = "Pequeno e Nacional";
 		} else {
 			descricaoCategoria = "ERRO";
