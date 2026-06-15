@@ -36,7 +36,7 @@ public class Main {
 				estacionamento.registrarSaidaVeiculo();
 					break;
 				case 3: 
-//					estacionamento.consultar();
+					estacionamento.consultar();
 					break;
 				case 4: 
 //					estacionamento.excluir();

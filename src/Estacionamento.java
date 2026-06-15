@@ -312,121 +312,143 @@ public class Estacionamento {
 //	}
 
 	// ************************ CONSULTA *****************************
-//	public void consultar() {
-//		RandomAccessFile arqEst;
-//		byte opcao;
-//		String matriculaChave;
-//		char sexoAux;
-//		long posicaoRegistro;
-//
-//		do {
-//			do {
-//				System.out.println(" ***************  CONSULTA DOS REGISTROS DE ENTRADA E SAIDA  ***************** ");
-//				System.out.println(" [1] EXIBIR TODOS OS REGISTROS ");
-//				System.out.println(" [2] EXIBIR VEÍCULOS QUE NÃO SAÍRAM DO ESTACIONAMENTO ");
-//				System.out.println(" [3] EXIBIR REGISTROS CADASTRADOS POR DATA ");
-//				System.out.println(" [0] SAIR");
-//				System.out.print("\nDigite a opcao desejada: ");
-//				opcao = Main.leia.nextByte();
-//				if (opcao < 0 || opcao > 3) {
-//					System.out.println("opcao Invalida, digite novamente.\n");
-//				}
-//			} while (opcao < 0 || opcao > 3);
-//
-//			switch (opcao) {
-//			case 0:
-//				System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
-//				break;
-//
-//			case 1:
-//				// imprime todos os registros, opção [1] !!!
-//
-//				try {
-//					arqEst = new RandomAccessFile("EST.DAT", "rw");
-//					imprimirCabecalho();
-//					while (true) {
-//						ativo = arqEst.readChar();
-//						codEst = arqEst.readUTF();
-//						placa = arqEst.readUTF();
-//						dataOperacao = arqEst.readUTF();
-//						tipoOperacao = arqEst.readChar();
-//						modeloCor = arqEst.readUTF();
-//						codMarca = arqEst.readUTF();
-//						categoriaVeiculo = arqEst.readUTF();
-//						horaEntrada = arqEst.readUTF();
-//						horaSaida = arqEst.readUTF();
-//						valorPago = arqEst.readFloat();
-//						if (ativo == 'S') {
-//							imprimirAluno();
-//						}
-//					}
-//					// arqEst.close();
-//				} catch (EOFException e) {
-//					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
-//					Main.leia.nextLine();
-//					matriculaChave = Main.leia.nextLine();
-//				} catch (IOException e) {
-//					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
-//					System.exit(0);
-//				}
-//				break;
+	public void consultar() {
+		RandomAccessFile arqEst;
+		byte opcao;
+		String matriculaChave;
+		char sexoAux;
+		long posicaoRegistro;
 
-//			case 2:  
-//				//	consulta de uma unica matricula
-//				
-//				Main.leia.nextLine();  // limpa buffer de memoria
-//				System.out.print("Digite a Matriocula do Aluno: ");
-//				matriculaChave = Main.leia.nextLine();
-//
-//				posicaoRegistro = pesquisarAluno(matriculaChave);
-//				if (posicaoRegistro == -1) {
-//					System.out.println("Matricula nao cadastrada no arquivo \n");
-//				} else {
-//					imprimirCabecalho();
-//					imprimirAluno();
-//					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
-//					Main.leia.nextLine();
-//				}
-//
-//				break;
-//
-//			case 3:  // imprime alunos do sexo desejado
-//				do {
-//					System.out.print("Digite o Sexo desejado (M/F): ");
-//					sexoAux = Main.leia.next().charAt(0);
-//					if (sexoAux != 'F' && sexoAux != 'M') {
-//						System.out.println("Sexo Invalido, digite M ou F");
-//					}
-//				}while (sexoAux != 'F' && sexoAux != 'M');
-//
-//				try { 
-//					arqEst = new RandomAccessFile("EST.DAT", "rw");
-//					imprimirCabecalho();
-//					while (true) {
-//						ativo		= arqEst.readChar();
-//						matricula   = arqEst.readUTF();
-//						nomeAluno   = arqEst.readUTF();
-//						dtNasc      = arqEst.readUTF();
-//						mensalidade = arqEst.readFloat();
-//						sexo        = arqEst.readChar();
-//
-//						if ( sexoAux == sexo && ativo == 'S') {
-//							imprimirAluno();
-//						}
-//					}
-//				} catch (EOFException e) {
-//					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
-//					Main.leia.nextLine();
-//					matriculaChave = Main.leia.nextLine();
-//				} catch (IOException e) { 
-//					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
-//					System.exit(0);
-//				}
-//
-//			}
-//
-//		} while (opcao != 0);
-//	}
+		do {
+			do {
+				System.out.println(" ***************  CONSULTA DOS REGISTROS DE ENTRADA E SAIDA  ***************** ");
+				System.out.println(" [1] EXIBIR TODOS OS REGISTROS ");
+				System.out.println(" [2] EXIBIR VEÍCULOS QUE NÃO SAÍRAM DO ESTACIONAMENTO ");
+				System.out.println(" [3] EXIBIR REGISTROS CADASTRADOS POR DATA ");
+				System.out.println(" [0] SAIR");
+				System.out.print("\nDigite a opcao desejada: ");
+				opcao = Main.leia.nextByte();
+				if (opcao < 0 || opcao > 3) {
+					System.out.println("opcao Invalida, digite novamente.\n");
+				}
+			} while (opcao < 0 || opcao > 3);
+
+			switch (opcao) {
+			case 0:
+				System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
+				break;
+
+			case 1:
+//				// imprime todos os registros, opção [1] !!!
+
+				try {
+					arqEst = new RandomAccessFile("EST.DAT", "rw");
+					imprimirCabecalho();
+					while (true) {
+						ativo = arqEst.readChar();
+						codEst = arqEst.readUTF();
+						placa = arqEst.readUTF();
+						dataOperacao = arqEst.readUTF();
+						tipoOperacao = arqEst.readChar();
+						modeloCor = arqEst.readUTF();
+						codMarca = arqEst.readUTF();
+						categoriaVeiculo = arqEst.readUTF();
+						horaEntrada = arqEst.readUTF();
+						horaSaida = arqEst.readUTF();
+						valorPago = arqEst.readFloat();
+						if (ativo == 'S') {
+							imprimirVeiculo();
+						}
+					}
+					 arqEst.close();
+				} catch (EOFException e) {
+					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
+					Main.leia.nextLine();
+					codEst = Main.leia.nextLine();
+				} catch (IOException e) {
+					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
+					System.exit(0);
+				}
+				break;
+
+			case 2:  
+			//	consulta veículos com saída registrada
+				
+				Main.leia.nextLine();  // limpa buffer de memoria
+				System.out.print("Digite o Código do Veículo: ");
+				codEst = Main.leia.nextLine();
+
+				try { 
+					arqEst = new RandomAccessFile("EST.DAT", "rw");
+					imprimirCabecalho();
+					while (true) {
+						ativo = arqEst.readChar();
+						codEst = arqEst.readUTF();
+						placa = arqEst.readUTF();
+						dataOperacao = arqEst.readUTF();
+						tipoOperacao = arqEst.readChar();
+						modeloCor = arqEst.readUTF();
+						codMarca = arqEst.readUTF();
+						categoriaVeiculo = arqEst.readUTF();
+						horaEntrada = arqEst.readUTF();
+						horaSaida = arqEst.readUTF();
+						valorPago = arqEst.readFloat();
+
+						if ( tipoOperacao == 'E' && ativo == 'S') {
+							imprimirVeiculo();
+						}
+					}
+				} catch (EOFException e) {
+					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
+					Main.leia.nextLine();
+					matriculaChave = Main.leia.nextLine();
+				} catch (IOException e) { 
+					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
+					System.exit(0);
+				}
+
+				case 3:  // imprime veiculos da data desejada
+				do {
+					System.out.print("Digite a data desejada: ");
+					dataOperacao = Main.leia.next().charAt(0);
+					if (dataEhValida(dataOperacao) == false) {
+						System.out.println("Sexo Invalido, digite M ou F");
+					}
+				}while (tipoOperacao != 'E' && sexoAux != 'S');
+
+				try { 
+					arqEst = new RandomAccessFile("EST.DAT", "rw");
+					imprimirCabecalho();
+					while (true) {
+						ativo = arqEst.readChar();
+						codEst = arqEst.readUTF();
+						placa = arqEst.readUTF();
+						dataOperacao = arqEst.readUTF();
+						tipoOperacao = arqEst.readChar();
+						modeloCor = arqEst.readUTF();
+						codMarca = arqEst.readUTF();
+						categoriaVeiculo = arqEst.readUTF();
+						horaEntrada = arqEst.readUTF();
+						horaSaida = arqEst.readUTF();
+						valorPago = arqEst.readFloat();
+
+						if (ativo == 'S') {
+							imprimirVeiculo();
+						}
+					}
+				} catch (EOFException e) {
+					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
+					Main.leia.nextLine();
+					codEst = Main.leia.nextLine();
+				} catch (IOException e) { 
+					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
+					System.exit(0);
+				}
+
+			}
+
+		} while (opcao != 0);
+	}
 
 	// ***************************FATURAMENTO***********************************
 
@@ -477,7 +499,7 @@ public class Estacionamento {
 				"---- PLACA ----  -- OP --  -------- MODELO E COR ----------  -- CATEGORIA --  --- DATA ---  -- HR ENTR --  -- HR SAIDA --  --- VLR PAGO --- ");
 	}
 
-	public void imprimirAluno() {
+	public void imprimirVeiculo() {
 
 		// FORMATAR TAMANHO DOS ESPACAMENTOS DE ACORDO COM CADA COLUNA
 
