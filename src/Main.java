@@ -30,13 +30,13 @@ public class Main {
 					System.out.println("\n ************  PROGRAMA ENCERRADO  ************** \n");
 					break;
 				case 1: 
-					estacionamento.registrarEntrada(); 
+					estacionamento.registrarEntradaVeiculo(); 
 					break;
 				case 2:
 				estacionamento.registrarSaidaVeiculo();
 					break;
 				case 3: 
-//					estacionamento.consultar();
+					estacionamento.consultar();
 					break;
 				case 4: 
 //					estacionamento.excluir();
@@ -46,7 +46,7 @@ public class Main {
 					break;
 			}
     	} while ( opcao != 0 );
-    	//leia.close();
+    	leia.close();
 	}
 
 }
