@@ -416,10 +416,10 @@ public class Estacionamento {
 				do {
 					System.out.print("Digite a data desejada(DD/MM/AAAA): ");
 					dataPesquisa = Main.leia.nextLine();
-					if (dataEhValida(dataPesquisa)) {
+					if (!dataEhValida(dataPesquisa)) {
 						System.out.println("Data inválida, digite no formato DD/MM/AAAA");
 					}
-				}while (dataEhValida(dataPesquisa));
+				}while (!dataEhValida(dataPesquisa));
 
 				try { 
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
@@ -448,7 +448,7 @@ public class Estacionamento {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 					System.exit(0);
 				}
-
+				break;
 			}
 
 		} while (opcao != 0);
