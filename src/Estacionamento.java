@@ -323,8 +323,7 @@ public class Estacionamento {
 	public void consultar() {
 		RandomAccessFile arqEst;
 		byte opcao;
-		String matriculaChave;
-		char sexoAux;
+		String dataPesquisa;
 		long posicaoRegistro;
 
 		do {
@@ -380,11 +379,7 @@ public class Estacionamento {
 				break;
 
 			case 2:  
-				//	consulta veículos com saída registrada
-
-				Main.leia.nextLine();  // limpa buffer de memoria
-				System.out.print("Digite o Código do Veículo: ");
-				codEst = Main.leia.nextLine();
+				//	consulta de todos os veículos com saída registrada
 
 				try { 
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
@@ -409,20 +404,22 @@ public class Estacionamento {
 				} catch (EOFException e) {
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					Main.leia.nextLine();
-					matriculaChave = Main.leia.nextLine();
+					Main.leia.nextLine();
 				} catch (IOException e) { 
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 					System.exit(0);
 				}
+				break;
 
 			case 3:  // imprime veiculos da data desejada
+					Main.leia.nextLine();
 				do {
-					System.out.print("Digite a data desejada: ");
-					dataOperacao = Main.leia.next().charAt(0);
-					if (dataEhValida(dataOperacao) == false) {
-						System.out.println("Sexo Invalido, digite M ou F");
+					System.out.print("Digite a data desejada(DD/MM/AAAA): ");
+					dataPesquisa = Main.leia.nextLine();
+					if (dataEhValida(dataPesquisa)) {
+						System.out.println("Data inválida, digite no formato DD/MM/AAAA");
 					}
-				}while (tipoOperacao != 'E' && sexoAux != 'S');
+				}while (dataEhValida(dataPesquisa));
 
 				try { 
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
@@ -440,15 +437,14 @@ public class Estacionamento {
 						horaSaida = arqEst.readUTF();
 						valorPago = arqEst.readFloat();
 
-						if (ativo == 'S') {
+						if (ativo == 'S' && dataOperacao.equals(dataPesquisa)) {
 							imprimirVeiculo();
 						}
 					}
 				} catch (EOFException e) {
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					Main.leia.nextLine();
-					codEst = Main.leia.nextLine();
-				} catch (IOException e) { 
+				} catch (IOException e) {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 					System.exit(0);
 				}
