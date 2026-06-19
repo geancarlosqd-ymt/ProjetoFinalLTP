@@ -15,7 +15,7 @@ public class Main {
     			System.out.println(" [1] ENTRADA DE VEICULOS ");
     			System.out.println(" [2] SAIDA DE VEICULOS ");
     			System.out.println(" [3] CONSULTAR VEICULOS ");
-    			System.out.println(" [4] EXCLUSÃO ");
+    			System.out.println(" [4] EXCLUSÃO DE VEICULOS ");
     			System.out.println(" [5] RELATÓRIO DE FATURAMENTO ");
     			System.out.println(" [0] SAIR");
     			System.out.print("\nDigite a opcao desejada: ");

@@ -222,10 +222,17 @@ public class Estacionamento {
 			do {
 				posicaoRegistro = pesquisarEntradaVeiculo(CodEst);
 				if (posicaoRegistro == -1) {
-					System.out.println("Registro não cadastrado no arquivo, digite outro valor\n");
+					System.out.print("Registro não cadastrado no arquivo, digite outro valor(FIM para encerrar):");
 					CodEst = Main.leia.nextLine();
+					if (CodEst.equalsIgnoreCase("Fim")) {
+						break;
+					}
 				}
 			} while (posicaoRegistro == -1);
+			if (CodEst.equalsIgnoreCase("FIM")) {
+				break;
+			}
+			
 			if (tipoOperacao == 'S') {
 				System.out.println("Este veiculo já saiu do estacionamento <ENTER>");
 				Main.leia.nextLine();
