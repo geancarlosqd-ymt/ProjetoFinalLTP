@@ -14,7 +14,7 @@ public class Main {
     			System.out.println("\n ***************  CADASTRO DE ESTACIONAMENTO  ***************** ");
     			System.out.println(" [1] ENTRADA DE VEICULOS ");
     			System.out.println(" [2] SAIDA DE VEICULOS ");
-    			System.out.println(" [3] CONSULTAR ALUNOS ");
+    			System.out.println(" [3] CONSULTAR VEICULOS ");
     			System.out.println(" [4] EXCLUSÃO ");
     			System.out.println(" [5] RELATÓRIO DE FATURAMENTO ");
     			System.out.println(" [0] SAIR");
@@ -39,7 +39,7 @@ public class Main {
 					estacionamento.consultar();
 					break;
 				case 4: 
-//					estacionamento.excluir();
+					estacionamento.excluir();
 					break;
 				case 5:
 					estacionamento.exibirRelatorioFaturamento();
