@@ -332,6 +332,7 @@ public class Estacionamento {
 		RandomAccessFile arqEst = null;
 		byte opcao;
 		String dataPesquisa;
+		
 
 		do {
 			do {
@@ -612,7 +613,7 @@ public class Estacionamento {
 
 	public void imprimirCabecalho() {
 		System.out.println(
-				"---- PLACA ----  -- OP --  ------- MODELO E COR ---------  -- CATEGORIA --  --- DATA ---  -- HR ENTR --  -- HR SAIDA --  --- VLR PAGO --- ");
+				"---- PLACA ----  -- OP --  ------- MODELO E COR --------- --- MARCA ---  -- CATEGORIA --  --- DATA ---  -- HR ENTR --  -- HR SAIDA --  --- VLR PAGO --- ");
 	}
 
 	public void imprimirCabecalhoRelatorio() {
@@ -621,14 +622,22 @@ public class Estacionamento {
 	}
 
 	public void imprimirVeiculo() {
-		System.out.println(formatarString(placa, 18) + "  " + formatarString(String.valueOf(tipoOperacao), 5) + "  "
-				+ formatarString(modeloCor, 37) + "  " + formatarString(categoriaVeiculo, 8) + "  "
-				+ formatarString(dataOperacao, 16) + "  " + formatarString(horaEntrada, 13) + "  "
+		String marca = "";
+		for(byte x=0; x<Main.vetCodMarca.length; x++ ) {
+			if(codMarca.equals(Main.vetCodMarca[x])) {
+				marca=Main.vetDescricaoMarca[x];
+				break;
+			}
+		}
+		
+		System.out.println(formatarString(placa, 18) + "  " + formatarString(String.valueOf(tipoOperacao), 5) + "  " 
+				+ formatarString(modeloCor, 35) + "  " + formatarString(marca, 13) + " " + formatarString(categoriaVeiculo, 12) + "  "
+				+ formatarString(dataOperacao, 13) + "  " + formatarString(horaEntrada, 13) + "  "
 				+ formatarString(horaSaida, 16) + "  " + formatarString(String.valueOf(valorPago), 16));
 	}
 
 	public void imprimirVeiculoFaturamento() {
-		System.out.println(formatarString(placa, 10) + "  " + formatarString(modeloCor, 18) + "  "
+		System.out.println(formatarString(placa, 10) + "  " + formatarString(modeloCor, 18) + "  " 
 				+ formatarString(dataOperacao, 10) + "  " + formatarString(horaEntrada, 13) + "  "
 				+ formatarString(horaSaida, 14) + "  " + formatarString(String.valueOf(valorPago), 11));
 	}
