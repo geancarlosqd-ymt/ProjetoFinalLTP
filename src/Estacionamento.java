@@ -248,8 +248,8 @@ public class Estacionamento {
 			System.out.println("Data de Entrada.........................: " + dataOperacao);
 			tipoOperacao = 'S';
 			System.out.println("Tipo de Operação (E entrada - S saida)..: " + tipoOperacao);
-			System.out.println("Digite o modelo e cor...................: " + modeloCor);
-			System.out.println("Digite o codigo da marca................: " + codMarca);
+			System.out.println("Modelo e cor............................: " + modeloCor);
+			System.out.println("Codigo da marca.........................: " + codMarca);
 			System.out.println("Categoria (GI/PI/GN/PN).................: " + categoriaVeiculo);
 			System.out.println("Hora de entrada (HH:MM).................: " + horaEntrada);
 
@@ -347,6 +347,7 @@ public class Estacionamento {
 				System.out.println(" [0] SAIR");
 				System.out.print("\nDigite a opcao desejada: ");
 				opcao = Main.leia.nextByte();
+				Main.leia.nextLine();
 				if (opcao < 0 || opcao > 3) {
 					System.out.println("opcao Invalida, digite novamente.\n");
 				}
@@ -423,7 +424,7 @@ public class Estacionamento {
 				break;
 
 			case 3: // imprime veiculos da data desejada
-				Main.leia.nextLine();
+				
 				do {
 					System.out.print("Digite a data desejada(DD/MM/AAAA): ");
 					dataPesquisa = Main.leia.nextLine();
@@ -520,6 +521,7 @@ public class Estacionamento {
 				System.out.println(" [0] SAIR");
 				System.out.print("\nDigite a opcao desejada: ");
 				opcao = Main.leia.nextByte();
+				Main.leia.nextLine();
 				if (opcao < 0 || opcao > 2) {
 					System.out.println("opcao Invalida, digite novamente.\n");
 				}
@@ -559,6 +561,7 @@ public class Estacionamento {
 				} catch (EOFException e) {
 					System.out.println();
 					System.out.println("TOTAL FATURADO: " + totalFaturado);
+					totalFaturado = 0;
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					Main.leia.nextLine();
 				} catch (IOException e) {
@@ -702,9 +705,11 @@ public class Estacionamento {
 		int ano;
 
 		if (data.length() != 10) {
+			System.out.println("Digite no formato DD/MM/AAAA");
 			return false;
 		}
 		if (data.charAt(2) != '/' || data.charAt(5) != '/') {
+			System.out.println("Digite no formato DD/MM/AAAA");
 			return false;
 		}
 
@@ -713,6 +718,7 @@ public class Estacionamento {
 			mes = Integer.parseInt(data.substring(3, 5));
 			ano = Integer.parseInt(data.substring(6, 10));
 		} catch (NumberFormatException e) {
+			System.out.println("Digite no formato DD/MM/AAAA (Apenas Numeros)");
 			return false;
 		}
 
@@ -766,7 +772,6 @@ public class Estacionamento {
 			System.out.println("Horario Final deve ser maior que o Inicial");
 			return false;
 		}
-		
 
 		return true;
 	}
