@@ -142,6 +142,9 @@ public class Estacionamento {
 			do {
 				System.out.print("Digite a placa............................: ");
 				placaAux = Main.leia.nextLine();
+				if (placaAux.equalsIgnoreCase("FIM")) {
+					break;
+				}
 				placaValida = placaEhValida(placaAux);
 				if (!placaValida) {
 					System.out.println("Placa inválida, digite no formato XXX9999!");
@@ -152,7 +155,9 @@ public class Estacionamento {
 					}
 				}
 			} while (!placaValida || veiculoNoPatio);
-
+			if (placaAux.equalsIgnoreCase("FIM")) {
+				break;
+			}
 			placa = placaAux;
 
 			do {
@@ -232,7 +237,7 @@ public class Estacionamento {
 			if (CodEst.equalsIgnoreCase("FIM")) {
 				break;
 			}
-			
+
 			if (tipoOperacao == 'S') {
 				System.out.println("Este veiculo já saiu do estacionamento <ENTER>");
 				Main.leia.nextLine();
@@ -332,7 +337,6 @@ public class Estacionamento {
 		RandomAccessFile arqEst = null;
 		byte opcao;
 		String dataPesquisa;
-		
 
 		do {
 			do {
@@ -412,7 +416,6 @@ public class Estacionamento {
 					}
 				} catch (EOFException e) {
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
-					Main.leia.nextLine();
 					Main.leia.nextLine();
 				} catch (IOException e) {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
@@ -508,6 +511,7 @@ public class Estacionamento {
 		byte opcao;
 		String consultaPlaca;
 		boolean placaValida;
+		float totalFaturado = 0;
 
 		do {
 			do {
@@ -545,14 +549,17 @@ public class Estacionamento {
 						horaEntrada = arqEst.readUTF();
 						horaSaida = arqEst.readUTF();
 						valorPago = arqEst.readFloat();
-						if (ativo == 'S') {
+						if (ativo == 'S' && tipoOperacao == 'S') {
 
 							imprimirVeiculoFaturamento();
+							totalFaturado = totalFaturado + valorPago;
 
 						}
 					}
 
 				} catch (EOFException e) {
+					System.out.println();
+					System.out.println("TOTAL FATURADO: " + totalFaturado);
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					Main.leia.nextLine();
 					consultaPlaca = Main.leia.nextLine();
@@ -593,12 +600,14 @@ public class Estacionamento {
 
 						if (consultaPlaca.equalsIgnoreCase(placa) && ativo == 'S' && tipoOperacao == 'S') {
 							imprimirVeiculoFaturamento();
+							totalFaturado = totalFaturado + valorPago;
 
 						}
 					}
 				} catch (EOFException e) {
+					System.out.println();
+					System.out.println("TOTAL FATURADO: " + totalFaturado);
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
-					Main.leia.nextLine();
 					consultaPlaca = Main.leia.nextLine();
 				} catch (IOException e) {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
@@ -623,21 +632,22 @@ public class Estacionamento {
 
 	public void imprimirVeiculo() {
 		String marca = "";
-		for(byte x=0; x<Main.vetCodMarca.length; x++ ) {
-			if(codMarca.equals(Main.vetCodMarca[x])) {
-				marca=Main.vetDescricaoMarca[x];
+		for (byte x = 0; x < Main.vetCodMarca.length; x++) {
+			if (codMarca.equals(Main.vetCodMarca[x])) {
+				marca = Main.vetDescricaoMarca[x];
 				break;
 			}
 		}
-		
-		System.out.println(formatarString(placa, 18) + "  " + formatarString(String.valueOf(tipoOperacao), 5) + "  " 
-				+ formatarString(modeloCor, 35) + "  " + formatarString(marca, 13) + " " + formatarString(categoriaVeiculo, 12) + "  "
-				+ formatarString(dataOperacao, 13) + "  " + formatarString(horaEntrada, 13) + "  "
-				+ formatarString(horaSaida, 16) + "  " + formatarString(String.valueOf(valorPago), 16));
+
+		System.out.println(formatarString(placa, 18) + "  " + formatarString(String.valueOf(tipoOperacao), 5) + "  "
+				+ formatarString(modeloCor, 35) + "  " + formatarString(marca, 13) + " "
+				+ formatarString(categoriaVeiculo, 12) + "  " + formatarString(dataOperacao, 13) + "  "
+				+ formatarString(horaEntrada, 13) + "  " + formatarString(horaSaida, 16) + "  "
+				+ formatarString(String.valueOf(valorPago), 16));
 	}
 
 	public void imprimirVeiculoFaturamento() {
-		System.out.println(formatarString(placa, 10) + "  " + formatarString(modeloCor, 18) + "  " 
+		System.out.println(formatarString(placa, 10) + "  " + formatarString(modeloCor, 18) + "  "
 				+ formatarString(dataOperacao, 10) + "  " + formatarString(horaEntrada, 13) + "  "
 				+ formatarString(horaSaida, 14) + "  " + formatarString(String.valueOf(valorPago), 11));
 	}
