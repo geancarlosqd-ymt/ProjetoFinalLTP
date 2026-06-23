@@ -73,13 +73,18 @@ public class Estacionamento {
 	}
 
 	public void desativarRegistroVeiculo(String codEstEntrada) {
-		// metodo para alterar o valor do campo ATIVO para N, tornando assim o registro
 		long posicao;
 		posicao = pesquisarEntradaVeiculo(codEstEntrada);
+
+		if (posicao == -1) {
+			System.out.println("Registro não encontrado, não foi possível desativar.");
+			return;
+		}
+
 		try {
 			RandomAccessFile arqEst = new RandomAccessFile("EST.DAT", "rw");
 			arqEst.seek(posicao);
-			arqEst.writeChar('N'); // desativar o registro antigo
+			arqEst.writeChar('N');
 			arqEst.close();
 		} catch (IOException e) {
 			System.out.println("Erro na abertura do arquivo  -  programa sera finalizado");
@@ -131,7 +136,6 @@ public class Estacionamento {
 			}
 
 			novoCod = Integer.parseInt(ultimoCod) + 1;
-			ativo = 'S';
 			codEst = String.valueOf(novoCod);
 			while (codEst.length() < 6) {
 				codEst = "0" + codEst;
@@ -140,7 +144,7 @@ public class Estacionamento {
 			System.out.println("Código de Estacionamento..................: " + codEst);
 
 			do {
-				System.out.print("Digite a placa............................: ");
+				System.out.print("Digite a placa(FIM para encerrar).......: ");
 				placaAux = Main.leia.nextLine();
 				if (placaAux.equalsIgnoreCase("FIM")) {
 					break;
@@ -158,6 +162,7 @@ public class Estacionamento {
 			if (placaAux.equalsIgnoreCase("FIM")) {
 				break;
 			}
+			ativo = 'S';
 			placa = placaAux;
 
 			do {
@@ -329,6 +334,13 @@ public class Estacionamento {
 				}
 			} while (confirmacao != 'S' && confirmacao != 'N');
 
+			System.out.println("\nDeseja registrar outra saida? (S/N): ");
+			confirmacao = Main.leia.next().charAt(0);
+
+			if (confirmacao == 'N') {
+				break;
+			}
+
 		} while (!codEstChave.equalsIgnoreCase("FIM"));
 	}
 
@@ -337,6 +349,7 @@ public class Estacionamento {
 		RandomAccessFile arqEst = null;
 		byte opcao;
 		String dataPesquisa;
+		boolean encontrou = false;
 
 		do {
 			do {
@@ -423,8 +436,8 @@ public class Estacionamento {
 				}
 				break;
 
-			case 3: // imprime veiculos da data desejada
-				
+			case 3:
+
 				do {
 					System.out.print("Digite a data desejada(DD/MM/AAAA): ");
 					dataPesquisa = Main.leia.nextLine();
@@ -435,7 +448,7 @@ public class Estacionamento {
 
 				try {
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
-					imprimirCabecalho();
+
 					while (true) {
 						ativo = arqEst.readChar();
 						codEst = arqEst.readUTF();
@@ -450,12 +463,25 @@ public class Estacionamento {
 						valorPago = arqEst.readFloat();
 
 						if (ativo == 'S' && dataOperacao.equals(dataPesquisa)) {
+							if (!encontrou) {
+								imprimirCabecalho();
+							}
 							imprimirVeiculo();
+							encontrou = true;
 						}
 					}
+
 				} catch (EOFException e) {
+					if (!encontrou) {
+						System.out.println("Nenhum veículo encontrado para a data: " + dataPesquisa);
+					}
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					Main.leia.nextLine();
+					try {
+						if (arqEst != null)
+							arqEst.close();
+					} catch (IOException ex) {
+					}
 				} catch (IOException e) {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 					System.exit(0);
@@ -533,7 +559,7 @@ public class Estacionamento {
 				break;
 
 			case 1:
-//				// imprime todos os lancamentos, opção [1] !!!
+				//				// imprime todos os lancamentos, opção [1] !!!
 
 				try {
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
@@ -574,7 +600,6 @@ public class Estacionamento {
 				// imprime lancamento por placa [2]
 
 				do {
-					Main.leia.nextLine();
 					System.out.print("Digite a Placa do Veículo: ");
 					consultaPlaca = Main.leia.nextLine();
 					placaValida = placaEhValida(consultaPlaca);
@@ -604,7 +629,7 @@ public class Estacionamento {
 							totalFaturado = totalFaturado + valorPago;
 
 						}
-						
+
 					}
 				} catch (EOFException e) {
 					System.out.println();
@@ -751,7 +776,7 @@ public class Estacionamento {
 
 	public boolean validarModeloCor(String modeloCor) {
 
-		if (modeloCor == "") {
+		if (modeloCor.isEmpty()) {
 			System.out.println("A digitação do modelo e a cor é obrigatório");
 			return false;
 		} else if (modeloCor.length() < 10) {
