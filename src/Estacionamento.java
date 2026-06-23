@@ -384,7 +384,6 @@ public class Estacionamento {
 
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					Main.leia.nextLine();
-					codEst = Main.leia.nextLine();
 				} catch (IOException e) {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 					System.exit(0);
@@ -392,7 +391,7 @@ public class Estacionamento {
 				break;
 
 			case 2:
-				// consulta de todos os veículos com saída registrada
+				// consulta de todos os veículos que ainda estão no estacionamento
 
 				try {
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
@@ -524,7 +523,7 @@ public class Estacionamento {
 				if (opcao < 0 || opcao > 2) {
 					System.out.println("opcao Invalida, digite novamente.\n");
 				}
-			} while (opcao < 0 || opcao > 3);
+			} while (opcao < 0 || opcao > 2);
 
 			switch (opcao) {
 			case 0:
@@ -562,7 +561,6 @@ public class Estacionamento {
 					System.out.println("TOTAL FATURADO: " + totalFaturado);
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					Main.leia.nextLine();
-					consultaPlaca = Main.leia.nextLine();
 				} catch (IOException e) {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 					System.exit(0);
@@ -603,10 +601,12 @@ public class Estacionamento {
 							totalFaturado = totalFaturado + valorPago;
 
 						}
+						
 					}
 				} catch (EOFException e) {
 					System.out.println();
 					System.out.println("TOTAL FATURADO: " + totalFaturado);
+					totalFaturado = 0;
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
 					consultaPlaca = Main.leia.nextLine();
 				} catch (IOException e) {
@@ -688,7 +688,7 @@ public class Estacionamento {
 			return false;
 		}
 
-		if (hora < 0 || hora > 24 || minuto < 0 || minuto > 59) {
+		if (hora < 0 || hora > 23 || minuto < 0 || minuto > 59) {
 			System.out.println("Horario Inválido, " + "digite hora entre 0 e 24, minuto entre 0 e 59");
 			return false;
 		}
@@ -766,8 +766,7 @@ public class Estacionamento {
 			System.out.println("Horario Final deve ser maior que o Inicial");
 			return false;
 		}
-		while (hEntrada > hSaida || hEntrada == hSaida && mEntrada >= mSaida)
-			;
+		
 
 		return true;
 	}

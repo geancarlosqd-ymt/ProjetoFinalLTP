@@ -3,7 +3,7 @@ public class Main {
 	static Scanner leia = new Scanner(System.in);
 	
 	static String vetCodMarca[] = { "BM", "VW", "FO", "MB", "CV", "FI", "AU", "TO", "HO", "HY" };
-	static String vetDescricaoMarca[] = { "BMW", "Volskswagen", "Ford", "Mercedes Benz", "Chevrolet", "Fiat", "Audi", "Toyota", "Honda", "Hyundai" };
+	static String vetDescricaoMarca[] = { "BMW", "Volkswagen", "Ford", "Mercedes Benz", "Chevrolet", "Fiat", "Audi", "Toyota", "Honda", "Hyundai" };
 	
 	public static void main(String[] args) {	
 		Estacionamento estacionamento = new Estacionamento();
