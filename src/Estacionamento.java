@@ -248,7 +248,7 @@ public class Estacionamento {
 				}
 
 				else if (tipoOperacao == 'S') {
-					System.out.println("Este veículo já saiu do estacionamento. Digite outro (FIM para encerrar): ");
+					System.out.print("Este veículo já saiu do estacionamento. Digite outro (FIM para encerrar): ");
 					CodEst = Main.leia.nextLine();
 					if (CodEst.equalsIgnoreCase("FIM")) {
 						break;
