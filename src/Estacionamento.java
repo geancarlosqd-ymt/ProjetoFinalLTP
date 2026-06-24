@@ -650,8 +650,8 @@ public class Estacionamento {
 
 					}
 				} catch (EOFException e) {
-					if (!encontrouPLaca){
-						System.out.println("Nenhum lançamento encontrado para a placa:"+ consultaPlaca);
+					if (!encontrouPLaca) {
+						System.out.println("Nenhum lançamento encontrado para a placa:" + consultaPlaca);
 					}
 					System.out.println();
 					System.out.println("TOTAL FATURADO: " + totalFaturado);
