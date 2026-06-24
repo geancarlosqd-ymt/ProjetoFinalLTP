@@ -334,7 +334,7 @@ public class Estacionamento {
 				}
 			} while (confirmacao != 'S' && confirmacao != 'N');
 
-			System.out.println("\nDeseja registrar outra saida? (S/N): ");
+			System.out.println("\nDeseja excluir outro registro? (S/N): ");
 			confirmacao = Main.leia.next().charAt(0);
 
 			if (confirmacao == 'N') {
@@ -377,6 +377,7 @@ public class Estacionamento {
 				try {
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
 					imprimirCabecalho();
+					
 					while (true) {
 						ativo = arqEst.readChar();
 						codEst = arqEst.readUTF();
@@ -437,7 +438,7 @@ public class Estacionamento {
 				break;
 
 			case 3:
-
+				encontrou = false;
 				do {
 					System.out.print("Digite a data desejada(DD/MM/AAAA): ");
 					dataPesquisa = Main.leia.nextLine();
@@ -636,7 +637,7 @@ public class Estacionamento {
 					System.out.println("TOTAL FATURADO: " + totalFaturado);
 					totalFaturado = 0;
 					System.out.println("\n FIM DE RELATORIO - ENTER para continuar...\n");
-					consultaPlaca = Main.leia.nextLine();
+					Main.leia.nextLine();
 				} catch (IOException e) {
 					System.out.println("Erro na abertura do arquivo - programa sera finalizado");
 					System.exit(0);
