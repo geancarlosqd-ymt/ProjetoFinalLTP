@@ -738,7 +738,7 @@ public class Estacionamento {
 		}
 
 		if (hora < 0 || hora > 23 || minuto < 0 || minuto > 59) {
-			System.out.println("Horario Inválido, " + "digite hora entre 0 e 24, minuto entre 0 e 59");
+			System.out.println("Horario Inválido, " + "digite hora entre 0 e 23, minuto entre 0 e 59");
 			return false;
 		}
 
