@@ -321,6 +321,7 @@ public class Estacionamento {
 				posicaoRegistro = pesquisarEntradaVeiculo(codEstChave);
 				if (posicaoRegistro == -1) {
 					System.out.println("Registro nao cadastrado no arquivo, digite outro valor<ENTER>\n");
+					Main.leia.nextLine();
 				}
 			} while (posicaoRegistro == -1);
 
@@ -612,6 +613,7 @@ public class Estacionamento {
 				break;
 
 			case 2:
+				boolean encontrouPLaca = false;
 				// imprime lancamento por placa [2]
 
 				do {
@@ -641,12 +643,16 @@ public class Estacionamento {
 
 						if (consultaPlaca.equalsIgnoreCase(placa) && ativo == 'S' && tipoOperacao == 'S') {
 							imprimirVeiculoFaturamento();
+							encontrouPLaca = true;
 							totalFaturado = totalFaturado + valorPago;
 
 						}
 
 					}
 				} catch (EOFException e) {
+					if (!encontrouPLaca){
+						System.out.println("Nenhum lançamento encontrado para a placa:"+ consultaPlaca);
+					}
 					System.out.println();
 					System.out.println("TOTAL FATURADO: " + totalFaturado);
 					totalFaturado = 0;
