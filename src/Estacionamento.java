@@ -98,6 +98,7 @@ public class Estacionamento {
 		char confirmacao;
 		String ultimoCod = "000000";
 		int novoCod;
+		String codAux;
 		RandomAccessFile arqEst = null;
 		String placaAux;
 		boolean placaValida;
@@ -111,7 +112,7 @@ public class Estacionamento {
 				arqEst = new RandomAccessFile("EST.DAT", "rw");
 				while (true) {
 					arqEst.readChar();
-					ultimoCod = arqEst.readUTF();
+					codAux = arqEst.readUTF();
 					arqEst.readUTF();
 					arqEst.readUTF();
 					arqEst.readChar();
@@ -121,6 +122,11 @@ public class Estacionamento {
 					arqEst.readUTF();
 					arqEst.readUTF();
 					arqEst.readFloat();
+
+					if (Integer.parseInt(codAux) > Integer.parseInt(ultimoCod)) {
+						ultimoCod = codAux;
+					}
+
 				}
 
 			} catch (EOFException e) {
@@ -136,6 +142,7 @@ public class Estacionamento {
 			}
 
 			novoCod = Integer.parseInt(ultimoCod) + 1;
+
 			codEst = String.valueOf(novoCod);
 			while (codEst.length() < 6) {
 				codEst = "0" + codEst;
@@ -144,7 +151,7 @@ public class Estacionamento {
 			System.out.println("Código de Estacionamento..................: " + codEst);
 
 			do {
-				System.out.print("Digite a placa(FIM para encerrar).......: ");
+				System.out.print("Digite a placa(FIM para encerrar)........: ");
 				placaAux = Main.leia.nextLine();
 				if (placaAux.equalsIgnoreCase("FIM")) {
 					break;
@@ -231,21 +238,28 @@ public class Estacionamento {
 			}
 			do {
 				posicaoRegistro = pesquisarEntradaVeiculo(CodEst);
+
 				if (posicaoRegistro == -1) {
-					System.out.print("Registro não cadastrado no arquivo, digite outro valor(FIM para encerrar):");
+					System.out.print("Registro não cadastrado. Digite outro (FIM para encerrar): ");
 					CodEst = Main.leia.nextLine();
-					if (CodEst.equalsIgnoreCase("Fim")) {
+					if (CodEst.equalsIgnoreCase("FIM")) {
 						break;
 					}
 				}
-			} while (posicaoRegistro == -1);
-			if (CodEst.equalsIgnoreCase("FIM")) {
-				break;
-			}
 
-			if (tipoOperacao == 'S') {
-				System.out.println("Este veiculo já saiu do estacionamento <ENTER>");
-				Main.leia.nextLine();
+				else if (tipoOperacao == 'S') {
+					System.out.println("Este veículo já saiu do estacionamento. Digite outro (FIM para encerrar): ");
+					CodEst = Main.leia.nextLine();
+					if (CodEst.equalsIgnoreCase("FIM")) {
+						break;
+					}
+
+					posicaoRegistro = -1;
+				}
+
+			} while (posicaoRegistro == -1);
+
+			if (CodEst.equalsIgnoreCase("FIM")) {
 				break;
 			}
 
@@ -295,8 +309,8 @@ public class Estacionamento {
 		long posicaoRegistro = 0;
 
 		do {
+			Main.leia.nextLine();
 			do {
-				Main.leia.nextLine();
 				System.out.println(" ***************  EXCLUSAO DE REGISTROS  ***************** ");
 				System.out.print("Digite o Codigo de Registro a ser excluido (FIM para encerrar): ");
 				codEstChave = Main.leia.nextLine();
@@ -377,7 +391,7 @@ public class Estacionamento {
 				try {
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
 					imprimirCabecalho();
-					
+
 					while (true) {
 						ativo = arqEst.readChar();
 						codEst = arqEst.readUTF();
@@ -560,7 +574,7 @@ public class Estacionamento {
 				break;
 
 			case 1:
-				//				// imprime todos os lancamentos, opção [1] !!!
+				// // imprime todos os lancamentos, opção [1] !!!
 
 				try {
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
@@ -832,6 +846,8 @@ public class Estacionamento {
 				return i;
 			}
 		}
+
+		System.out.println("Marca inválida! Códigos válidos: BM, VW, FO, MB, CV, FI, AU, TO, HO, HY");
 		return -1;
 	}
 
@@ -869,7 +885,7 @@ public class Estacionamento {
 				arqEst.readUTF(); // horaSaida
 				arqEst.readFloat(); // valorPago
 
-				if (placa.equals(placaPesq) && tipoOperacao == 'E' && ativo == 'S') {
+				if (placa.equalsIgnoreCase(placaPesq) && tipoOperacao == 'E' && ativo == 'S') {
 					arqEst.close();
 					return true;
 				}
