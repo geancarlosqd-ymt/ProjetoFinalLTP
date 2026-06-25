@@ -457,10 +457,8 @@ public class Estacionamento {
 				do {
 					System.out.print("Digite a data desejada(DD/MM/AAAA): ");
 					dataPesquisa = Main.leia.nextLine();
-					if (!dataEhValida(dataPesquisa)) {
-						System.out.println("Data inválida, digite no formato DD/MM/AAAA");
-					}
-				} while (!dataEhValida(dataPesquisa));
+					encontrou = dataEhValida(dataPesquisa);
+				} while (!encontrou);
 
 				try {
 					arqEst = new RandomAccessFile("EST.DAT", "rw");
