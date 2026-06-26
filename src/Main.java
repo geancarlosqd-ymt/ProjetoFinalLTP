@@ -33,7 +33,7 @@ public class Main {
 					estacionamento.registrarEntradaVeiculo(); 
 					break;
 				case 2:
-				estacionamento.registrarSaidaVeiculo();
+					estacionamento.registrarSaidaVeiculo();
 					break;
 				case 3: 
 					estacionamento.consultar();
